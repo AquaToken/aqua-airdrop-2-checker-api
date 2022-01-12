@@ -16,6 +16,8 @@ BASE_DIR = root()
 ROOT_URLCONF = 'config.urls'
 WSGI_APPLICATION = 'config.wsgi.application'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 
 # Application definition
 # --------------------------------------------------------------------------
@@ -36,6 +38,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'aqua_airdrop2_checker.taskapp',
+    'aqua_airdrop2_checker.airdrop2',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -65,16 +68,13 @@ TEMPLATES = [
         'DIRS': [
             root('aqua_airdrop2_checker', 'templates'),
         ],
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
-            'loaders': [
-                'django.template.loaders.filesystem.Loader',
-                'django.template.loaders.app_directories.Loader',
             ],
         },
     },
@@ -161,4 +161,7 @@ if CELERY_ENABLED:
 # --------------------------------------------------------------------------
 
 REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
 }
