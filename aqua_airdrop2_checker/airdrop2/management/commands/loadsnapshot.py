@@ -32,23 +32,13 @@ class Command(BaseCommand):
                 yield [cell.strip() for cell in line.strip().split(',')]
 
     def parse_raw_account(self, raw_account: tuple[str]) -> AirdropAccount:
-        return AirdropAccount(
-            account_id=raw_account[0],
+        fields = ['account_id', 'native_balance', 'yxlm_balance', 'aqua_balance',
+                  'native_pool_balance', 'yxlm_pool_balance', 'aqua_pool_balance',
+                  'aqua_lock_balance', 'aqua_lock_term', 'airdrop_shares', 'airdrop_reward']
 
-            native_balance=raw_account[1],
-            yxlm_balance=raw_account[2],
-            aqua_balance=raw_account[3],
-
-            native_pool_balance=raw_account[4],
-            yxlm_pool_balance=raw_account[5],
-            aqua_pool_balance=raw_account[6],
-
-            aqua_lock_balance=raw_account[7],
-            aqua_lock_term=raw_account[8],
-
-            airdrop_shares=raw_account[9],
-            airdrop_reward=raw_account[10],
-        )
+        return AirdropAccount(**dict(
+            zip(fields, raw_account),
+        ))
 
     def save_snapshot_to_db(self, snapshot: Iterable[AirdropAccount]):
         batch = []
