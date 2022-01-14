@@ -35,6 +35,8 @@ ipython = "*"
 gunicorn = "*"
 celery = "*"
 sentry-sdk = "*"
+django-constance = "*"
+redis = "*"
 
 [requires]
 python_version = "3.9"

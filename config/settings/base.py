@@ -1,3 +1,6 @@
+from datetime import datetime, timezone
+from decimal import Decimal
+
 import environ
 
 
@@ -34,6 +37,7 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'constance',
 ]
 
 LOCAL_APPS = [
@@ -156,6 +160,17 @@ if CELERY_ENABLED:
     CELERY_TASK_IGNORE_RESULT = True
 
 
+# Cache configuration
+# --------------------------------------------------------------------------
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': env('REDIS_BACKEND', default='redis://127.0.0.1:6379'),
+    }
+}
+
+
 # Rest framework configuration
 # http://www.django-rest-framework.org/api-guide/settings/
 # --------------------------------------------------------------------------
@@ -164,4 +179,15 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
+}
+
+
+# Constance configuration
+# https://django-constance.readthedocs.io/en/latest/
+# --------------------------------------------------------------------------
+
+CONSTANCE_CONFIG = {
+    'AQUA_PRICE': (Decimal('0.0394804'), 'Aqua price used in airdrop.', Decimal),
+    'SHARE_PRICE': (Decimal('5.3803358'), 'Share price used in airdrop.', Decimal),
+    'SNAPSHOT_TIME': (datetime(2022, 1, 15, 0, 0, 0, tzinfo=timezone.utc), 'Snapshot time.', datetime),
 }
