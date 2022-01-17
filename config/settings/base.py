@@ -187,7 +187,7 @@ REST_FRAMEWORK = {
 # --------------------------------------------------------------------------
 
 CONSTANCE_CONFIG = {
-    'AQUA_PRICE': (Decimal('0.0394804'), 'Aqua price used in airdrop.', Decimal),
-    'SHARE_PRICE': (Decimal('5.3803358'), 'Share price used in airdrop.', Decimal),
+    'AQUA_PRICE': (Decimal('0.0390995'), 'Aqua price used in airdrop.', Decimal),
+    'SHARE_PRICE': (Decimal('4.9912914'), 'Share price used in airdrop.', Decimal),
     'SNAPSHOT_TIME': (datetime(2022, 1, 15, 0, 0, 0, tzinfo=timezone.utc), 'Snapshot time.', datetime),
 }
