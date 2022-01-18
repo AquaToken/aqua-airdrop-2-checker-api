@@ -188,6 +188,8 @@ REST_FRAMEWORK = {
 
 CONSTANCE_CONFIG = {
     'AQUA_PRICE': (Decimal('0.0390995'), 'Aqua price used in airdrop.', Decimal),
-    'SHARE_PRICE': (Decimal('4.9912914'), 'Share price used in airdrop.', Decimal),
+    'SHARE_PRICE': (Decimal('4.9914546'), 'Share price used in airdrop.', Decimal),
     'SNAPSHOT_TIME': (datetime(2022, 1, 15, 0, 0, 0, tzinfo=timezone.utc), 'Snapshot time.', datetime),
+    'MAX_LOCK_TERM': (94694400, 'Max lock term.', int),
+    'MAX_LOCK_BOOST': (Decimal(3), 'Max lock boost', Decimal),
 }

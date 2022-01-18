@@ -1,3 +1,6 @@
+from decimal import Decimal
+
+from constance import config
 from django.db import models
 
 
@@ -39,3 +42,32 @@ class AirdropAccount(models.Model):
 
     def __str__(self):
         return self.account_id
+
+    @property
+    def locked_share(self):
+        return self.aqua_lock_balance * config.AQUA_PRICE
+
+    @property
+    def unlocked_share(self):
+        xlm_balance = self.native_balance + self.yxlm_balance + self.native_pool_balance + self.yxlm_pool_balance
+        aqua_balance = self.aqua_balance + self.aqua_pool_balance
+        return xlm_balance + aqua_balance * config.AQUA_PRICE
+
+    @property
+    def raw_airdrop_shares(self):
+        return self.locked_share + self.unlocked_share
+
+    @property
+    def raw_airdrop_reward(self):
+        return self.raw_airdrop_shares * config.SHARE_PRICE
+
+    @property
+    def airdrop_boost(self):
+        locked_share = self.locked_share
+        unlocked_share = self.unlocked_share
+
+        time_lock_multiplier = Decimal(min(self.aqua_lock_term, config.MAX_LOCK_TERM) / config.MAX_LOCK_TERM)
+        value_lock_multiplier = min(locked_share, unlocked_share) / unlocked_share
+        total_lock_multiplier = time_lock_multiplier * value_lock_multiplier
+
+        return Decimal(total_lock_multiplier * config.MAX_LOCK_BOOST)
