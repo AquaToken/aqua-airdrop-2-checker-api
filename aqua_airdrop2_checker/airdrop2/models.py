@@ -1,6 +1,7 @@
 from decimal import Decimal
 
 from constance import config
+from django.conf import settings
 from django.db import models
 
 
@@ -59,7 +60,12 @@ class AirdropAccount(models.Model):
 
     @property
     def raw_airdrop_reward(self):
-        return self.raw_airdrop_shares * config.SHARE_PRICE
+        reward = self.raw_airdrop_shares * config.SHARE_PRICE
+
+        if reward > config.REWARD_CAP and self.account_id not in settings.REWARD_CAP_EXCEPTIONS:
+            reward = config.REWARD_CAP
+
+        return reward
 
     @property
     def airdrop_boost(self):
